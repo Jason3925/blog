@@ -1,0 +1,27 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.0",
+    "@my-blog/shared": "workspace:*",
+    "ali-oss": "^6.23.0",
+    "better-sqlite3": "^12.4.1",
+    "dotenv": "^17.2.1",
+    "gray-matter": "^4.0.3",
+    "hono": "^4.9.8"
+  },
+  "devDependencies": {
+    "@types/ali-oss": "^6.16.11",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^22.18.0",
+    "tsx": "^4.20.5",
+    "typescript": "~5.9.3"
+  }
+}

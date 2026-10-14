@@ -1,0 +1,80 @@
+/* Hallmark · genre: editorial · macrostructure: Long Document / Catalogue · theme: Newsprint-inspired
+ * tone: austere · anchor hue: warm ink · nav: N9 · footer: Ft6
+ * preserves: 中文系统字体栈 · 明暗主题 · 阅读优先 · markdown 排版
+ */
+
+:root {
+  --color-paper: oklch(98.2% 0.006 85);
+  --color-paper-2: oklch(96.5% 0.008 85);
+  --color-ink: oklch(22% 0.018 265);
+  --color-ink-2: oklch(42% 0.015 265);
+  --color-muted: oklch(52% 0.012 265);
+  --color-rule: oklch(88% 0.008 85);
+  --color-accent: oklch(42% 0.04 265);
+  --color-focus: oklch(42% 0.04 265);
+  --color-code-bg: oklch(95.5% 0.006 85);
+  --color-tag-bg: oklch(94% 0.006 85);
+  --color-tag-bg-hover: oklch(90% 0.008 85);
+
+  --bg: var(--color-paper);
+  --fg: var(--color-ink);
+  --muted: var(--color-muted);
+  --border: var(--color-rule);
+  --code-bg: var(--color-code-bg);
+  --accent: var(--color-accent);
+
+  --hl-keyword: oklch(42% 0.14 15);
+  --hl-string: oklch(38% 0.08 250);
+  --hl-comment: oklch(52% 0.012 265);
+  --hl-number: oklch(48% 0.12 55);
+  --hl-title: oklch(38% 0.08 265);
+  --hl-attr: oklch(42% 0.08 185);
+  --hl-literal: oklch(42% 0.1 310);
+
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 120ms;
+  --dur-normal: 200ms;
+
+  --text-measure: 42rem;
+  --text-lead: 1.0625rem;
+
+  color-scheme: light;
+}
+
+.dark {
+  --color-paper: oklch(14% 0.014 265);
+  --color-paper-2: oklch(18% 0.016 265);
+  --color-ink: oklch(93% 0.008 85);
+  --color-ink-2: oklch(78% 0.01 85);
+  --color-muted: oklch(64% 0.012 265);
+  --color-rule: oklch(26% 0.014 265);
+  --color-accent: oklch(74% 0.04 265);
+  --color-focus: oklch(74% 0.04 265);
+  --color-code-bg: oklch(18% 0.016 265);
+  --color-tag-bg: oklch(20% 0.018 265);
+  --color-tag-bg-hover: oklch(24% 0.02 265);
+
+  --bg: var(--color-paper);
+  --fg: var(--color-ink);
+  --muted: var(--color-muted);
+  --border: var(--color-rule);
+  --code-bg: var(--color-code-bg);
+  --accent: var(--color-accent);
+
+  --hl-keyword: oklch(74% 0.12 15);
+  --hl-string: oklch(78% 0.08 250);
+  --hl-comment: oklch(58% 0.012 265);
+  --hl-number: oklch(76% 0.1 55);
+  --hl-title: oklch(82% 0.06 265);
+  --hl-attr: oklch(78% 0.08 185);
+  --hl-literal: oklch(78% 0.08 310);
+
+  color-scheme: dark;
+}

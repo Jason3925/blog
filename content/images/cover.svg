@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#171717"/>
+  <rect x="80" y="80" width="1040" height="470" stroke="#fafafa" stroke-width="2"/>
+  <circle cx="300" cy="315" r="90" stroke="#fafafa" stroke-width="2"/>
+  <rect x="480" y="225" width="180" height="180" stroke="#fafafa" stroke-width="2"/>
+  <path d="M780 405 L870 225 L960 405 Z" stroke="#fafafa" stroke-width="2"/>
+  <text x="80" y="590" fill="#fafafa" font-size="28" font-family="ui-sans-serif, system-ui, sans-serif">My Blog</text>
+</svg>
