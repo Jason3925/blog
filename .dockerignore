@@ -1,0 +1,16 @@
+node_modules
+**/node_modules
+dist
+**/dist
+.git
+data
+packages/server/data
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+.idea
+.vscode
+.vite
+.turbo

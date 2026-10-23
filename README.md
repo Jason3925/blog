@@ -58,11 +58,32 @@ draft: false
 
 ## 用编辑器发布（二期）
 
-1. 配置根目录 `.env`（OSS 密钥）。
-2. `pnpm dev`，打开 http://localhost:5174 。
+1. 配置根目录 `.env`（OSS 密钥）。公网部署时同时填写 `EDITOR_USER` 与 `EDITOR_PASSWORD`，编辑 API 会要求登录；两项都留空则本机不鉴权。博客预览不使用这套接口。
+2. `pnpm dev`，打开 http://localhost:5174 。若开了登录，先输入账号密码。
 3. 写文章：`#` 选标签（提交时才入库），`@` 引用已有文章。
 4. 点「提交文章」保存到后端；点列表页「静态化」写出 `content/posts/`。
 5. 博客预览在 http://localhost:5173 。
+
+部署时让编辑器站点和 `/api` 同源（Nginx 把 `/api` 反代到 server）。登录态是 HttpOnly Cookie，图片预览和接口请求都会带上。不要把 server 端口单独暴露到公网。
+
+## 部署
+
+服务器安装 Docker 与 Docker Compose。clone 仓库后，把 `.env.example` 复制为 `.env`，填好 OSS、`EDITOR_USER`、`EDITOR_PASSWORD`，以及两个端口，然后执行：
+
+```bash
+./deploy.sh
+```
+
+脚本会构建镜像并启动三个容器。对外只有两个端口，写在 `.env` 里：
+
+- `BLOG_PORT`：博客，默认 `8080`
+- `EDITOR_PORT`：编辑器，默认 `8081`
+
+后端只在容器网络里，编辑器的 Nginx 把 `/api` 转到它。把域名指到这两个端口即可；证书放在你自己的反代上。反代请带上 `X-Forwarded-Proto`，HTTPS 下登录 Cookie 会标记为 Secure。
+
+数据库在仓库下的 `data/`（含 `blog.db` 和 WAL 文件），文章和图片在 `content/`。这两个目录都挂在容器外面，迁移时一起拷走。
+
+点编辑器里的「静态化」会写出 Markdown，并在 server 容器里重新构建博客。博客容器直接读这份静态文件，页面马上更新，不必重跑部署。改代码、依赖或端口后，再执行一次 `./deploy.sh`。
 
 ## 目录结构
 

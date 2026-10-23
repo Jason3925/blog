@@ -4,6 +4,7 @@ import { Hono } from "hono";
 import matter from "gray-matter";
 import { collectFileIds } from "@my-blog/shared";
 import { db, toPostDto, type FileRow, type PostRow } from "../db";
+import { rebuildBlog } from "../blog-build";
 import { ensureDir, paths } from "../env";
 import { getOssClient, ossConfigured } from "../oss";
 
@@ -59,7 +60,13 @@ staticizeRoute.post("/", async (c) => {
     written.push(filename);
   }
 
-  return c.json({ ok: true, written, skippedImages, skippedDrafts });
+  try {
+    const rebuilt = await rebuildBlog();
+    return c.json({ ok: true, written, skippedImages, skippedDrafts, rebuilt });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "博客构建失败";
+    return c.json({ error: `文章已写入，博客构建失败：${message}`, written }, 500);
+  }
 });
 
 async function materializeFile(id: string): Promise<string | null> {

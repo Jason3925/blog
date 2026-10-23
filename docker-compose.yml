@@ -1,0 +1,56 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.server
+    env_file: .env
+    environment:
+      PORT: 8787
+      DATA_DIR: /data
+      BLOG_DIST: /blog-dist
+    volumes:
+      - ./data:/data
+      - ./content:/app/content
+      - blog-dist:/blog-dist
+    expose:
+      - "8787"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:8787/api/health').then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+    restart: unless-stopped
+
+  blog:
+    build:
+      context: deploy
+      dockerfile: Dockerfile.blog
+    ports:
+      - "${BLOG_PORT:-8080}:80"
+    volumes:
+      - blog-dist:/usr/share/nginx/html:ro
+    depends_on:
+      server:
+        condition: service_healthy
+    restart: unless-stopped
+
+  editor:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.editor
+    ports:
+      - "${EDITOR_PORT:-8081}:80"
+    depends_on:
+      server:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  blog-dist:

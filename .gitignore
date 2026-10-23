@@ -9,6 +9,7 @@ dist
 .turbo
 *.log
 packages/server/data
+/data
 .idea
 .vscode/*
 !.vscode/extensions.json

@@ -33,11 +33,22 @@ export const env = {
   ossBucket: process.env.OSS_BUCKET || parsed?.bucket || "",
   ossPrefix: process.env.OSS_PREFIX || parsed?.prefix || "dev",
   cdnDomain: process.env.CDN_DOMAIN ?? "",
+  editorUser: process.env.EDITOR_USER ?? "",
+  editorPassword: process.env.EDITOR_PASSWORD ?? "",
+  blogDist: process.env.BLOG_DIST ?? "",
 };
 
+export function editorAuthEnabled(): boolean {
+  return Boolean(env.editorUser && env.editorPassword);
+}
+
+const dataDir = process.env.DATA_DIR
+  ? path.resolve(process.env.DATA_DIR)
+  : path.join(SERVER_DIR, "data");
+
 export const paths = {
-  dataDir: path.join(SERVER_DIR, "data"),
-  dbFile: path.join(SERVER_DIR, "data", "blog.db"),
+  dataDir,
+  dbFile: path.join(dataDir, "blog.db"),
   postsDir: path.join(REPO_ROOT, "content", "posts"),
   imagesDir: path.join(REPO_ROOT, "content", "images"),
 };

@@ -29,7 +29,7 @@ export function ListPage() {
       setMessage(
         `已写出 ${result.written.length} 篇到 content/posts/${
           result.skippedDrafts?.length > 0 ? `，跳过 ${result.skippedDrafts.length} 篇草稿` : ""
-        }`,
+        }${result.rebuilt ? "，博客已更新" : ""}`,
       );
     } catch (err) {
       setError(err instanceof Error ? err.message : "静态化失败");
