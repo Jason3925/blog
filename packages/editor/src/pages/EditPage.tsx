@@ -20,6 +20,15 @@ function previewUrlTransform(url: string): string {
   return defaultUrlTransform(url);
 }
 
+function createFileId(): string {
+  if (typeof crypto.randomUUID === "function") return crypto.randomUUID();
+  const bytes = crypto.getRandomValues(new Uint8Array(16));
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  const hex = [...bytes].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+}
+
 export function EditPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -82,7 +91,7 @@ export function EditPage() {
   }, [markdown, posts, localFiles]);
 
   function pickLocalFile(file: File): string {
-    const fileId = crypto.randomUUID();
+    const fileId = createFileId();
     const previewUrl = URL.createObjectURL(file);
     setLocalFiles((current) => {
       const next = new Map(current);
