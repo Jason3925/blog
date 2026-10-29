@@ -10,11 +10,18 @@
   --color-ink-2: oklch(42% 0.015 265);
   --color-muted: oklch(52% 0.012 265);
   --color-rule: oklch(88% 0.008 85);
-  --color-accent: oklch(42% 0.04 265);
-  --color-focus: oklch(42% 0.04 265);
-  --color-code-bg: oklch(95.5% 0.006 85);
-  --color-tag-bg: oklch(94% 0.006 85);
-  --color-tag-bg-hover: oklch(90% 0.008 85);
+  --color-accent: oklch(42% 0.09 250);
+  --color-focus: oklch(42% 0.09 250);
+  --color-code-bg: oklch(95.4% 0.012 70);
+  --color-tag-bg: oklch(94% 0.02 250);
+  --color-tag-bg-hover: oklch(90% 0.03 250);
+  --color-tag-fg: oklch(40% 0.06 250);
+
+  --md-heading: oklch(34% 0.055 250);
+  --md-link: oklch(42% 0.09 250);
+  --md-em: oklch(40% 0.05 330);
+  --md-code: oklch(42% 0.07 25);
+  --md-quote: oklch(52% 0.09 65);
 
   --bg: var(--color-paper);
   --fg: var(--color-ink);
@@ -55,11 +62,18 @@
   --color-ink-2: oklch(78% 0.01 85);
   --color-muted: oklch(64% 0.012 265);
   --color-rule: oklch(26% 0.014 265);
-  --color-accent: oklch(74% 0.04 265);
-  --color-focus: oklch(74% 0.04 265);
-  --color-code-bg: oklch(18% 0.016 265);
-  --color-tag-bg: oklch(20% 0.018 265);
-  --color-tag-bg-hover: oklch(24% 0.02 265);
+  --color-accent: oklch(78% 0.07 250);
+  --color-focus: oklch(78% 0.07 250);
+  --color-code-bg: oklch(20% 0.02 70);
+  --color-tag-bg: oklch(24% 0.03 250);
+  --color-tag-bg-hover: oklch(28% 0.04 250);
+  --color-tag-fg: oklch(82% 0.04 250);
+
+  --md-heading: oklch(88% 0.04 250);
+  --md-link: oklch(78% 0.07 250);
+  --md-em: oklch(84% 0.04 330);
+  --md-code: oklch(82% 0.05 40);
+  --md-quote: oklch(78% 0.07 75);
 
   --bg: var(--color-paper);
   --fg: var(--color-ink);

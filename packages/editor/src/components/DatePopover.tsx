@@ -94,7 +94,7 @@ export function DatePopover({
       role="dialog"
       aria-label="选择日期"
       className="date-popover absolute z-30 rounded-lg border border-border bg-bg p-1.5 shadow-md outline-none"
-      style={{ top, left }}
+      style={{ top, left, transform: "translateY(calc(-100% - 6px))" }}
       onMouseDown={(event) => event.preventDefault()}
     >
       <DayPicker

@@ -74,7 +74,7 @@ button:focus-visible {
   border-radius: 0.375rem;
   font-size: 0.6875rem;
   line-height: 1.35;
-  color: var(--muted);
+  color: var(--color-tag-fg);
   background: var(--color-tag-bg);
   text-decoration: none;
   transition:
@@ -167,6 +167,7 @@ button:focus-visible {
 .markdown h2,
 .markdown h3,
 .markdown h4 {
+  color: var(--md-heading);
   font-weight: 650;
   font-style: normal;
   letter-spacing: -0.025em;
@@ -183,7 +184,7 @@ button:focus-visible {
   font-size: 1.375rem;
   margin: 2.25rem 0 0.85rem;
   padding-bottom: 0.35rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid color-mix(in oklch, var(--md-link) 28%, var(--border));
 }
 
 .markdown h3 {
@@ -201,9 +202,9 @@ button:focus-visible {
 }
 
 .markdown a {
-  color: var(--fg);
+  color: var(--md-link);
   text-decoration: underline;
-  text-decoration-color: var(--border);
+  text-decoration-color: color-mix(in oklch, var(--md-link) 40%, transparent);
   text-underline-offset: 0.18em;
   text-decoration-thickness: 1px;
   transition: opacity var(--dur-fast) var(--ease-out);
@@ -225,7 +226,12 @@ button:focus-visible {
 }
 
 .markdown strong {
+  color: var(--md-heading);
   font-weight: 650;
+}
+
+.markdown em {
+  color: var(--md-em);
 }
 
 .markdown ul,
@@ -235,6 +241,10 @@ button:focus-visible {
 
 .markdown li + li {
   margin-top: 0.3rem;
+}
+
+.markdown li::marker {
+  color: var(--md-quote);
 }
 
 .markdown ul {
@@ -248,7 +258,7 @@ button:focus-visible {
 .markdown blockquote {
   margin-left: 0;
   padding: 0.15rem 0 0.15rem 1rem;
-  border-left: 2px solid var(--border);
+  border-left: 2px solid var(--md-quote);
   color: var(--muted);
 }
 
@@ -288,6 +298,7 @@ button:focus-visible {
 .markdown :not(pre) > code {
   font-family: var(--font-mono);
   font-size: 0.875em;
+  color: var(--md-code);
   background: var(--code-bg);
   padding: 0.15em 0.4em;
   border-radius: 0.2rem;

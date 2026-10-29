@@ -8,6 +8,8 @@ interface Props {
   value: string;
   onChange: (value: string) => void;
   onUpload: (file: File) => string;
+  onCaret?: (offset: number) => void;
+  fill?: boolean;
   autoFocus?: boolean;
   selectTitleOnFocus?: boolean;
 }
@@ -72,8 +74,7 @@ function getCaretPosition(textarea: HTMLTextAreaElement, offset: number): { top:
   mirror.append(marker);
   document.body.append(mirror);
 
-  const lineHeight = Number.parseFloat(computed.lineHeight) || Number.parseFloat(computed.fontSize) * 1.6;
-  const top = marker.offsetTop - textarea.scrollTop + textarea.offsetTop + lineHeight;
+  const top = marker.offsetTop - textarea.scrollTop + textarea.offsetTop;
   const left = marker.offsetLeft - textarea.scrollLeft + textarea.offsetLeft;
   mirror.remove();
 
@@ -130,6 +131,8 @@ export function MarkdownEditor({
   value,
   onChange,
   onUpload,
+  onCaret,
+  fill,
   autoFocus,
   selectTitleOnFocus,
 }: Props) {
@@ -185,8 +188,10 @@ export function MarkdownEditor({
     setPopup(null);
     requestAnimationFrame(() => {
       const pos = from + insert.length;
-      areaRef.current?.focus();
-      areaRef.current?.setSelectionRange(pos, pos);
+      const area = areaRef.current;
+      area?.focus();
+      area?.setSelectionRange(pos, pos);
+      onCaret?.(pos);
     });
   }
 
@@ -248,8 +253,10 @@ export function MarkdownEditor({
     onChange(next);
     requestAnimationFrame(() => {
       const pos = at + snippet.length;
-      areaRef.current?.focus();
-      areaRef.current?.setSelectionRange(pos, pos);
+      const area = areaRef.current;
+      area?.focus();
+      area?.setSelectionRange(pos, pos);
+      onCaret?.(pos);
     });
   }
 
@@ -292,14 +299,14 @@ export function MarkdownEditor({
   }
 
   return (
-    <div className="relative" ref={wrapRef}>
+    <div className={`relative ${fill ? "h-full" : ""}`} ref={wrapRef}>
       <textarea
         ref={areaRef}
         value={value}
-        rows={24}
+        rows={fill ? 6 : 24}
         autoFocus={autoFocus}
         spellCheck={false}
-        className="w-full resize-y rounded-lg border border-border bg-bg px-3 py-3 font-mono text-[13px] leading-6 outline-none focus:border-fg"
+        className={`w-full rounded-lg border border-border bg-bg px-3 py-3 font-mono text-[13px] leading-6 outline-none focus:border-fg ${fill ? "h-full resize-none overflow-y-auto" : "resize-y"}`}
         placeholder={"# 标题\n日期\n#标签\n---\n正文"}
         onScroll={(event) => {
           if (!popup) return;
@@ -308,8 +315,13 @@ export function MarkdownEditor({
         onChange={(event) => {
           onChange(event.target.value);
           syncPopup(event.target.value, event.target.selectionStart);
+          onCaret?.(event.target.selectionStart);
         }}
-        onClick={(event) => syncPopup(event.currentTarget.value, event.currentTarget.selectionStart)}
+        onClick={(event) => {
+          syncPopup(event.currentTarget.value, event.currentTarget.selectionStart);
+          onCaret?.(event.currentTarget.selectionStart);
+        }}
+        onSelect={(event) => onCaret?.(event.currentTarget.selectionStart)}
         onKeyDown={onKeyDown}
         onPaste={handlePaste}
       />
@@ -412,7 +424,7 @@ function Menu({ children, top, left }: { children: ReactNode; top: number; left:
   return (
     <ul
       className="absolute z-20 max-h-56 min-w-48 max-w-xs overflow-auto rounded-lg border border-border bg-bg py-1 text-sm shadow-md"
-      style={{ top, left: maxLeft }}
+      style={{ top, left: maxLeft, transform: "translateY(calc(-100% - 6px))" }}
     >
       {children}
     </ul>

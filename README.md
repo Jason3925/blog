@@ -1,4 +1,4 @@
-# My Blog
+# Lior's Blog
 
 纯静态、极简风的个人博客。用 Markdown 写文章，构建时自动生成目录与页面。
 
