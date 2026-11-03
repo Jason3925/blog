@@ -187,73 +187,8 @@ export function EditPage() {
 
   return (
     <form onSubmit={(event) => void save(event)} className="flex min-h-0 flex-1 flex-col">
-      <div ref={previewRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain py-6">
-        {ready ? (
-          <article className="pb-8">
-            <header className="mb-8">
-              <h1 className="text-[clamp(1.625rem,4vw,2.125rem)] font-medium leading-snug tracking-tight">
-                {doc.title || "未命名"}
-              </h1>
-              <p className="mt-3 text-sm text-muted">
-                <time dateTime={doc.date}>{formatPreviewDate(doc.date)}</time>
-                {draft ? <span> · 草稿</span> : null}
-              </p>
-              {doc.tags.length > 0 ? (
-                <ul className="mt-2 flex flex-wrap gap-1.5">
-                  {doc.tags.map((tag) => (
-                    <li key={tag}>
-                      <span className="tag-label">{tag}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </header>
-            {doc.cover ? <img src={doc.cover} alt="" className="mb-8 w-full rounded border border-border" /> : null}
-            {doc.content.trim() ? (
-              <div className="markdown">
-                <Markdown
-                  remarkPlugins={[
-                    remarkGfm,
-                    remarkPreview({
-                      resolveTitle: (slug) => titles.get(slug),
-                      resolveUrl: (url) => resolveLocalUrl(url, localFiles),
-                    }),
-                  ]}
-                  urlTransform={previewUrlTransform}
-                  components={{
-                    img: ({ node: _node, src, alt, ...props }) => <img {...props} src={src} alt={alt ?? ""} />,
-                    a: ({ node: _node, href, children, className, ...props }) => {
-                      const external = Boolean(href && /^https?:\/\//i.test(href));
-                      const mention = Boolean(href && href.startsWith("/posts/"));
-                      return (
-                        <a
-                          {...props}
-                          href={href}
-                          className={mention ? "post-mention" : className}
-                          {...(external ? { target: "_blank", rel: "noreferrer noopener" } : {})}
-                          onClick={(event) => {
-                            if (!external) event.preventDefault();
-                          }}
-                        >
-                          {children}
-                        </a>
-                      );
-                    },
-                  }}
-                >
-                  {doc.content}
-                </Markdown>
-              </div>
-            ) : null}
-          </article>
-        ) : (
-          <p className="text-sm text-muted">加载中…</p>
-        )}
-      </div>
-
-      <div className="shrink-0 border-t border-border bg-bg pt-3 pb-4">
-        {error ? <p className="mb-2 text-sm text-red-600 dark:text-red-400">{error}</p> : null}
-        <div className="mb-2 flex items-center justify-between gap-3">
+      <div className="shrink-0 border-b border-border bg-bg py-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <Link to="/" className="text-sm text-muted hover:text-fg">
             ← 文章列表
           </Link>
@@ -271,18 +206,91 @@ export function EditPage() {
             </button>
           </div>
         </div>
-        {ready ? (
-          <div className="h-[clamp(15rem,34vh,22rem)]">
-            <MarkdownEditor
-              value={markdown}
-              onChange={setMarkdown}
-              onUpload={pickLocalFile}
-              onCaret={handleCaret}
-              fill
-              selectTitleOnFocus={isNew}
-            />
-          </div>
-        ) : null}
+        {error ? <p className="mt-2 text-sm text-red-600 dark:text-red-400">{error}</p> : null}
+      </div>
+
+      <div className="flex min-h-0 flex-1 flex-col md:flex-row">
+        <div className="relative min-h-0 min-w-0 flex-1 border-b border-border md:border-b-0 md:border-r">
+          {ready ? (
+            <div className="absolute inset-0 py-3 md:py-4 md:pr-4">
+              <MarkdownEditor
+                value={markdown}
+                onChange={setMarkdown}
+                onUpload={pickLocalFile}
+                onCaret={handleCaret}
+                fill
+                selectTitleOnFocus={isNew}
+              />
+            </div>
+          ) : (
+            <p className="p-3 text-sm text-muted md:p-4">加载中…</p>
+          )}
+        </div>
+
+        <div
+          ref={previewRef}
+          className="min-h-0 min-w-0 flex-1 overflow-y-auto overscroll-contain py-3 md:py-4 md:pl-4"
+        >
+          {ready ? (
+            <article className="pb-6">
+              <header className="mb-6">
+                <h1 className="text-[clamp(1.375rem,3vw,1.875rem)] font-medium leading-snug tracking-tight">
+                  {doc.title || "未命名"}
+                </h1>
+                <p className="mt-2 text-sm text-muted">
+                  <time dateTime={doc.date}>{formatPreviewDate(doc.date)}</time>
+                  {draft ? <span> · 草稿</span> : null}
+                </p>
+                {doc.tags.length > 0 ? (
+                  <ul className="mt-2 flex flex-wrap gap-1.5">
+                    {doc.tags.map((tag) => (
+                      <li key={tag}>
+                        <span className="tag-label">{tag}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </header>
+              {doc.cover ? <img src={doc.cover} alt="" className="mb-6 w-full rounded border border-border" /> : null}
+              {doc.content.trim() ? (
+                <div className="markdown">
+                  <Markdown
+                    remarkPlugins={[
+                      remarkGfm,
+                      remarkPreview({
+                        resolveTitle: (slug) => titles.get(slug),
+                        resolveUrl: (url) => resolveLocalUrl(url, localFiles),
+                      }),
+                    ]}
+                    urlTransform={previewUrlTransform}
+                    components={{
+                      img: ({ node: _node, src, alt, ...props }) => <img {...props} src={src} alt={alt ?? ""} />,
+                      a: ({ node: _node, href, children, className, ...props }) => {
+                        const external = Boolean(href && /^https?:\/\//i.test(href));
+                        const mention = Boolean(href && href.startsWith("/posts/"));
+                        return (
+                          <a
+                            {...props}
+                            href={href}
+                            className={mention ? "post-mention" : className}
+                            {...(external ? { target: "_blank", rel: "noreferrer noopener" } : {})}
+                            onClick={(event) => {
+                              if (!external) event.preventDefault();
+                            }}
+                          >
+                            {children}
+                          </a>
+                        );
+                      },
+                    }}
+                  >
+                    {doc.content}
+                  </Markdown>
+                </div>
+              ) : null}
+            </article>
+          ) : null}
+        </div>
       </div>
     </form>
   );
