@@ -7,6 +7,10 @@ if [ ! -f .env ]; then
   exit 1
 fi
 
+# BuildKit required for Dockerfile cache mounts (apt/pnpm)
+export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
+
 docker compose up -d --build --wait
 echo "博客端口: ${BLOG_PORT:-8080}"
 echo "编辑器端口: ${EDITOR_PORT:-8081}"
